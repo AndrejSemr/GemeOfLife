@@ -1,32 +1,38 @@
-﻿namespace GameOfLife.GameOfLife
+﻿using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
+namespace GameOfLife.GameOfLife
 {
-    using System.IO;
-
-
+    /// <summary>
     /// 
-    /// Class is created to work with file :
-    ///     Get information from file;
-    ///     Write information in file;
-    /// 
-
+    ///     Class is created to work with file:
+    ///         1)  Get information from file;
+    ///         2)  Write information in file;
+    ///         
+    /// </summary>
     public class FileWorker
     {
         // Path to the game save file
         private string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTest.txt";
 
-        ///
-        /// Method writes information to file
-        /// Playground (Playground)
-        /// Playground Row (int)
-        /// Playground Column (int)
-        /// Return: Nothing
-        public void WriteInformationInFile(Playground playground,int row, int column)
+
+        /// <summary>
+        ///     
+        ///     Method writes information to file.
+        ///     
+        /// </summary>
+        /// <param name="playground"> Playground </param>
+        public void WriteInformationInFile(IPlayground playground)
         {
             File.Create(Path).Close();
             StreamWriter sw;
             sw = File.AppendText(Path);
             // Serialication??!!
-            int[,] array = playground.getPlaygroundArray();
+            int[,] array = playground.GetPlaygroundArray();
+            int row = array.GetLength(0);
+            int column = array.GetLength(1);
 
             for (int i = 0; i < row; i++)
             {
@@ -41,15 +47,21 @@
             }
 
             string gameStatus = "# ";
-            gameStatus += "Iteration number;" + 1 + ";";
-            gameStatus += "Number of live;" + 2 + ";";
+            gameStatus += "Iteration number;" + playground.NumberOfIteration() + ";";
+            gameStatus += "Number of live;" + playground.NumberOfLivePoints() + ";";
             sw.WriteLine(gameStatus);
             sw.Close();
         }
 
+        /// <summary>
         /// 
-        /// Method return playground array and iteration number from game save file;
-        /// 
+        ///     Method return playground array and iteration number from game save file;
+        ///     
+        /// </summary>
+        /// <return>
+        ///     <param name="playgroundArray"> Int array of ints that corresponds to Playground </param>
+        ///     <param name="iteration"> Number of iteration </param>
+        /// </return>
         public void OpenFileAndGatInformation(out int[,] playgroundArray, out int iteration)
         {
             string fileContent;
@@ -61,6 +73,15 @@
             playgroundArray = GetIntArrayFromString(splitInfopartAndArray[0]);
         }
 
+        /// <summary>
+        /// 
+        ///     Method create int array from text line.
+        ///     
+        /// </summary>
+        /// <param name="text"> Text line of numbers</param>
+        /// <returns> 
+        ///     int [,] - Playground array from file. 
+        /// </returns>
         private int[,] GetIntArrayFromString(string text)
         {
             string[] stringArray = text.Split(";");
@@ -81,6 +102,15 @@
             return intArray;
         }
 
+        /// <summary>
+        ///
+        ///     Method return number of iteration from text line.
+        ///
+        /// </summary>
+        /// <param name="text"> Text line </param>
+        /// <return>
+        ///     <param name="iteration"> Iteration number </param>
+        /// </return>
         private void GetInfoPart(string text, out int iteration)
         {
             string[] iterationAndLives = text.Split(';');
