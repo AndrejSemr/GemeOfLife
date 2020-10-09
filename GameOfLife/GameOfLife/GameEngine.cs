@@ -12,7 +12,6 @@
 
         public void Start()
         {
-            
             Playground gamePlayground = userUI.CreatePlayground();
             userUI.Drow(gamePlayground.GetPlaygroundArray());
             TimerCallback tm = new TimerCallback(GameLifeCycle);

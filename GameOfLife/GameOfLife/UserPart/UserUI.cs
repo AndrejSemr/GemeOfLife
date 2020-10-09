@@ -10,7 +10,7 @@ namespace GameOfLife.GameOfLife
     /// </summary>
     public class UserUI
     {
-        private FileWorker _fileWorker = new FileWorker();
+        private IWorkWithFile _fileWorker = new FileWriterBin();
 
         /// <summary>
         /// 

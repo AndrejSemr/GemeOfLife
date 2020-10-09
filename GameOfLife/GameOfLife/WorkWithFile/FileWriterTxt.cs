@@ -12,7 +12,7 @@ namespace GameOfLife.GameOfLife
     ///         2)  Write information in file;
     ///         
     /// </summary>
-    public class FileWorker
+    public class FileWriterTxt : IWorkWithFile
     {
         // Path to the game save file
         private string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTest.txt";

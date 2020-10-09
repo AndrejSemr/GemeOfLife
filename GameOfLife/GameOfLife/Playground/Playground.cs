@@ -7,12 +7,16 @@ namespace GameOfLife.GameOfLife
     /// 
     /// Class simulates the playground
     /// 
-    [Serializable]
+    [Serializable()]
     public class Playground : IPlayground
     {
+        [NonSerialized()]
         IGameRoles arrayChecker = new GameRoles();
+        [NonSerialized()]
         private int _playgroundRows;
+        [NonSerialized()]
         private int _playgroundColumns;
+
         private int[,] _playground;
         private int _iteration;
 
