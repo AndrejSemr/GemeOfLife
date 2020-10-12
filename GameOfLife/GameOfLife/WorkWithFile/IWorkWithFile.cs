@@ -2,7 +2,7 @@
 {
     public interface IWorkWithFile
     {
-        public void WriteInformationInFile(IPlayground playground);
-        public void OpenFileAndGatInformation(out int[,] playgroundArray, out int iteration);
+        public void WriteInformationInFile(IPlaygroundArray playgroundArray);
+        public IPlaygroundArray OpenFileAndGatInformation();
     }
 }

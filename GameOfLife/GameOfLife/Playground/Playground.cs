@@ -4,103 +4,96 @@ namespace GameOfLife.GameOfLife
     using System;
     using System.Linq;
 
-    /// 
-    /// Class simulates the playground
-    /// 
+    /// <summary>
+    /// Class simulates the playground.
+    /// </summary>
     [Serializable()]
     public class Playground : IPlayground
     {
-        [NonSerialized()]
-        IGameRoles arrayChecker = new GameRoles();
-        [NonSerialized()]
-        private int _playgroundRows;
-        [NonSerialized()]
-        private int _playgroundColumns;
+        public IGameRoles arrayChecker = new GameRoles();
+        public int PlaygroundRows { get; set; }
+        public int PlaygroundColumns { get; set; }
+        public int[,] PlaygriundGrid { get; set; }
+        public int IterationNumber { get; set; }
 
-        private int[,] _playground;
-        private int _iteration;
-
-        public Playground(int [,] array, int iter)
+        /// <summary>
+        /// Constructor creates a playground based on ready array and iteration number.
+        /// </summary>
+        /// <param name="array"> Ready array for Playground array. </param>
+        /// <param name="ireration"> Iteration number. </param>
+        public Playground(int [,] array, int ireration)
         {
-            _playground = array;
-            _playgroundRows = array.GetLength(0);
-            _playgroundColumns = array.GetLength(1);
-            _iteration = iter;
+            PlaygriundGrid = array;
+            PlaygroundRows = array.GetLength(0);
+            PlaygroundColumns = array.GetLength(1);
+            IterationNumber = ireration;
         }
+        /// <summary>
+        /// Constructor creates a playground based on rows and cilumns.
+        /// </summary>
+        /// <param name="rows">Number of rows in new Playground.</param>
+        /// <param name="columns">Number of rows in new Playground.</param>
         public Playground(int rows, int columns)
         {
             if (rows <= 1 || columns <= 1) 
                 throw new ArgumentOutOfRangeException("Row and Column size must be greater than 0");
-            _playgroundRows = rows;
-            _playgroundColumns = columns;
-            _playground = new int[_playgroundRows, _playgroundColumns];
-            _iteration = 0;
+
+            PlaygroundRows = rows;
+            PlaygroundColumns = columns;
+            PlaygriundGrid = new int[PlaygroundRows, PlaygroundColumns];
+            IterationNumber = 0;
         }
 
         /// <summary>
-        /// 
-        ///     Method calls one iteration and increases iteration counter.
-        ///     
+        /// Method calls one iteration and increases iteration counter.
         /// </summary>
         public void Iteration()
         {
-            _playground = arrayChecker.DoGameOfLifeIteration(_playground, _playgroundRows, _playgroundColumns);
-            _iteration++;
+            PlaygriundGrid = arrayChecker.DoGameOfLifeIteration(PlaygriundGrid, PlaygroundRows, PlaygroundColumns);
+            IterationNumber++;
         }
 
         /// <summary>
-        /// 
-        ///     Method randomly fills playgrounds array with 1 or 0 values.
-        /// 
+        ///  Method randomly fills playgrounds array with 1 (life) or 0 (free) values.
         /// </summary>
         public void RandomlyFillArray()
         {
             Random random = new Random();
-            for (int i = 0; i < _playgroundRows; i++)
+            for (int i = 0; i < PlaygroundRows; i++)
             {
-                for (int j = 0; j < _playgroundColumns; j++)
+                for (int j = 0; j < PlaygroundColumns; j++)
                 {
-                    _playground[i, j] = random.Next(0, 2);
+                    PlaygriundGrid[i, j] = random.Next(0, 2);
                 }
             }
         }
 
         /// <summary>
-        /// 
-        ///     Method return number of 'live' points.
-        ///     
+        /// Method return number of 'live' points.
         /// </summary>
-        /// <returns> 
-        ///         int - number of live points 
-        /// </returns>
-        public int NumberOfLivePoints()
+        /// <returns> int - Number of live points. </returns>
+        public int GetNumberOfLivePoints()
         {
-            int sum = _playground.Cast<int>().Sum(); // how dose it work?!
+            int sum = PlaygriundGrid.Cast<int>().Sum();
             return sum;
         }
 
         /// <summary>
-        ///     
-        ///     Metnod return number of iteration.
-        ///     
+        /// Metnod return number of iteration.
         /// </summary>
-        /// <returns> Number iteration </returns>
-        public int NumberOfIteration()
+        /// <returns> int - Iteration number. </returns>
+        public int GetNumberOfIteration()
         {
-            return _iteration;
+            return IterationNumber;
         }
 
         /// <summary>
-        /// 
-        ///     Method return playground as an array of numbers.
-        ///     
+        /// Method return playground as an array of numbers.
         /// </summary>
-        /// <returns> 
-        ///     int[,]  -   Playground array of numbers;
-        /// </returns>
+        /// <returns> int[,] - Playground array of numbers. </returns>
         public int[,] GetPlaygroundArray()
         {
-            return _playground;
+            return PlaygriundGrid;
         }
 
     }

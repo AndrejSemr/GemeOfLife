@@ -1,45 +1,41 @@
-﻿using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-
+﻿
 namespace GameOfLife.GameOfLife
 {
+    using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
+
+    /// <summary>
+    /// Class for work with binary file.
+    /// </summary>
     class FileWriterBin : IWorkWithFile
     {
         private string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTest.dat";
 
         /// <summary>
-        /// 
-        ///     Method reads information from file and return playground array and number of iteration.
-        ///     
+        /// Method reads information from file and return playground array and number of iteration.
         /// </summary>
-        /// <return>
-        ///     <param name="playgroundArray"> playground array (from file) </param>
-        ///     <param name="iteration"> number of iteration (from file) </param>
-        /// </return>
-        public void OpenFileAndGatInformation(out int[,] playgroundArray, out int iteration)
+        /// <return> IPlaygroundArray - PlaygroundArray from file. </return>
+        public IPlaygroundArray OpenFileAndGatInformation()
         {
             if (!File.Exists(Path))
             {
                 Console.WriteLine("File not found \n {0}",Path);
+                throw new FileNotFoundException();
             }
 
             BinaryFormatter binary = new BinaryFormatter();
             FileStream strem = new FileStream(Path, FileMode.Open);
-            var obj = (Playground)binary.Deserialize(strem);
-
-            playgroundArray = obj.GetPlaygroundArray();
-            iteration = obj.NumberOfIteration();
+            var obj = (IPlaygroundArray)binary.Deserialize(strem);
             strem.Close();
+            return obj;
         }
 
         /// <summary>
-        /// 
-        ///     Method writes playground to file (as binary form)
-        /// 
+        /// Method save playgrounds to file (as binary form).
         /// </summary>
-        /// <param name="playground"> Playground </param>
-        public void WriteInformationInFile(IPlayground playground)
+        /// <param name="playgroundArray"> Playground Array example </param>
+        public void WriteInformationInFile(IPlaygroundArray playgroundArray)
         {
             if (File.Exists(Path))
             {
@@ -48,9 +44,9 @@ namespace GameOfLife.GameOfLife
 
             BinaryFormatter binary = new BinaryFormatter();
             FileStream strem = new FileStream(Path, FileMode.Create);
-
-            binary.Serialize(strem,playground);
+            binary.Serialize(strem, playgroundArray);
             strem.Close();
+            Console.WriteLine("Successfully saved");
         }
     }
 }

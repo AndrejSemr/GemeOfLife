@@ -1,25 +1,23 @@
-﻿namespace GameOfLife.GameOfLife
+﻿using System;
+
+namespace GameOfLife.GameOfLife
 {
     
     /// <summary>
-    /// 
-    ///     Class contains the rules of 'Game Of Life' and necessary methods..
-    ///     .. for analyzing the state and make a decision.
-    ///     
+    /// Class contains the rules of 'Game Of Life' and necessary methods
+    /// for analyzing the state and make a decision.
     /// </summary>
+    
+    [Serializable()]
     public class GameRoles : IGameRoles
     {
         /// <summary>
-        ///         
-        ///     Method perform one 'Game of Life' iteration.
-        ///     
+        /// Method perform one 'Game of Life' iteration.
         /// </summary>
-        /// <param name="playgroundArray"> Playground array </param>
-        /// <param name="x_size"> Playground number of rows </param>
-        /// <param name="y_size"> Playground number of cilumns </param>
-        /// <returns>
-        ///     int[,]  -   new array for Playground ( after Iteration) 
-        /// </returns>
+        /// <param name="playgroundArray"> Playground array. </param>
+        /// <param name="x_size"> Playground number of rows. </param>
+        /// <param name="y_size"> Playground number of cilumns. </param>
+        /// <returns>int[,] - New array for Playground (after Iteration).</returns>
         public int[,] DoGameOfLifeIteration(int[,] playgroundArray, int x_size, int y_size)
         {
             int[,] playgroundArrayAfterIteration = new int[x_size,y_size];
@@ -36,19 +34,17 @@
         }
 
         /// <summary>
-        /// 
-        ///     Method checks calls against game rules;
-        ///     
+        /// Method checks calls against game rules.
         /// </summary>
-        /// <param name="playgroundArray">  Playground array </param>
-        /// <param name="x_coord"> Playground number of rows </param>
-        /// <param name="y_coord"> Playground number of cilumns </param>
-        /// <param name="x_size"> The state we check now (by rows) </param>
-        /// <param name="y_size"> The state we check now (by column) </param>
-        /// <returns> int  -   new status ( 1 - life , 0 - emptiness ) </returns>
-        private int CheckTheRules(int[,] playgroundArray, int x_coord, int y_coord, int x_size, int y_size)
+        /// <param name="playgroundArray">  Playground array. </param>
+        /// <param name="arraysRowsNumber"> Playground number of rows. </param>
+        /// <param name="arraysColumnsNumber"> Playground number of cilumns. </param>
+        /// <param name="x_coord"> The state we check now (by rows). </param>
+        /// <param name="y_coord"> The state we check now (by column). </param>
+        /// <returns> int - new status ( 1 - life , 0 - emptiness ). </returns>
+        private int CheckTheRules(int[,] playgroundArray, int x_coord, int y_coord, int arraysRowsNumber, int arraysColumnsNumber)
         {
-            int sumOfNeighbors = CheckNeighbors(playgroundArray,  x_coord,  y_coord, x_size, y_size);
+            int sumOfNeighbors = CheckNeighbors(playgroundArray,  x_coord,  y_coord, arraysRowsNumber, arraysColumnsNumber);
             int currentStatus = playgroundArray[x_coord, y_coord];
 
             if (currentStatus == 0 && sumOfNeighbors == 3)
@@ -65,17 +61,15 @@
         }
 
         /// <summary>
-        /// 
-        ///     Method return number of neighbors for current state;
-        ///     
+        /// Method return number of neighbors for current state.
         /// </summary>
-        /// <param name="playgroundArray"> Playground array </param>
-        /// <param name="x_coord"> The state we check now (by rows) </param>
-        /// <param name="y_coord"> The state we check now (by column) </param>
-        /// <param name="x_size"> Playground array number of rows </param>
-        /// <param name="y_size"> Playground array number of cilumns </param>
-        /// <returns></returns>
-        private int CheckNeighbors(int[,] playgroundArray, int x_coord,int y_coord , int x_size, int y_size)
+        /// <param name="playgroundArray"> Playground array. </param>
+        /// <param name="x_coord"> The state we check now (by rows). </param>
+        /// <param name="y_coord"> The state we check now (by column). </param>
+        /// <param name="arraysRowsNumber"> Playground array number of rows. </param>
+        /// <param name="arraysColumnsNumber"> Playground array number of cilumns. </param>
+        /// <returns>int - Number of neighbors for current state.</returns>
+        private int CheckNeighbors(int[,] playgroundArray, int x_coord,int y_coord , int arraysRowsNumber, int arraysColumnsNumber)
         {
             int sumOfNeighbors = 0;
             int x = 0;
@@ -85,8 +79,8 @@
             {
                 for (int column = -1; column < 2; column++)
                 {
-                    x = GetModulNumber(x_coord, row, x_size);
-                    y = GetModulNumber(y_coord, column, y_size);
+                    x = GetModulNumber(x_coord, row, arraysRowsNumber);
+                    y = GetModulNumber(y_coord, column, arraysColumnsNumber);
                     sumOfNeighbors += playgroundArray[x, y];
                 }
             }
@@ -95,14 +89,13 @@
 
             return sumOfNeighbors;
         }
+        
         /// <summary>
-        ///     
-        ///     Method return modul number to avoid going out of array;
-        ///     
+        /// Method return modul number to avoid going out of array.
         /// </summary>
-        /// <param name="coord"> Current position;</param>
-        /// <param name="offset"> offset/next coordinate to check </param>
-        /// <param name="arrayLenght"> array size/lenght/border </param>
+        /// <param name="coord"> Current position.</param>
+        /// <param name="offset"> Offset/next coordinate to check. </param>
+        /// <param name="arrayLenght"> Array size/lenght/border. </param>
         /// <returns> 
         ///     int -   Next cell coordinate
         /// </returns>
