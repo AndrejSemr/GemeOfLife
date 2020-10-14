@@ -11,14 +11,23 @@ namespace GameOfLife.GameOfLife
     public class Playground : IPlayground
     {
         #region VariableDeclaration
-        public IGameRoles arrayChecker = new GameRoles();
+
+        public IGameRoles arrayChecker;
         public int PlaygroundRows { get; set; }
         public int PlaygroundColumns { get; set; }
         public int[,] PlaygriundGrid { get; set; }
         public int IterationNumber { get; set; }
 
         #endregion
+        /// <summary>
+        /// Constructor for JSON Serialization/Deserialization.
+        /// </summary>
+        public Playground()
+        {
+            arrayChecker = new GameRoles();
+        }
 
+        #region Constructors
         /// <summary>
         /// Constructor creates a playground based on ready array and iteration number.
         /// </summary>
@@ -30,7 +39,9 @@ namespace GameOfLife.GameOfLife
             PlaygroundRows = array.GetLength(0);
             PlaygroundColumns = array.GetLength(1);
             IterationNumber = ireration;
+            arrayChecker = new GameRoles();
         }
+
         /// <summary>
         /// Constructor creates a playground based on rows and cilumns.
         /// </summary>
@@ -45,7 +56,10 @@ namespace GameOfLife.GameOfLife
             PlaygroundColumns = columns;
             PlaygriundGrid = new int[PlaygroundRows, PlaygroundColumns];
             IterationNumber = 0;
+            arrayChecker = new GameRoles();
+            RandomlyFillArray();
         }
+        #endregion
 
         /// <summary>
         /// Method calls one iteration and increases iteration counter.
@@ -59,15 +73,18 @@ namespace GameOfLife.GameOfLife
         /// <summary>
         ///  Method randomly fills playgrounds array with 1 (life) or 0 (free) values.
         /// </summary>
-        public void RandomlyFillArray()
+        private void RandomlyFillArray()
         {
             Random random = new Random();
+
             for (int i = 0; i < PlaygroundRows; i++)
             {
+
                 for (int j = 0; j < PlaygroundColumns; j++)
                 {
                     PlaygriundGrid[i, j] = random.Next(0, 2);
                 }
+
             }
         }
 
@@ -93,7 +110,7 @@ namespace GameOfLife.GameOfLife
         /// <summary>
         /// Method return playground as an array of numbers.
         /// </summary>
-        /// <returns> int[,] - Playground array of numbers. </returns>
+        /// <returns> int[,] - Playground array as array of int. </returns>
         public int[,] GetPlaygroundArray()
         {
             return PlaygriundGrid;

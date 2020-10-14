@@ -1,23 +1,25 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace GameOfLife.GameOfLife
 {
-    
+
     /// <summary>
     /// Class contains the rules of 'Game Of Life' and necessary methods
-    /// for analyzing the state and make a decision.
+    /// for state analyz and make a decision.
     /// </summary>
-    
+
     [Serializable()]
     public class GameRoles : IGameRoles
     {
+
         /// <summary>
         /// Method perform one 'Game of Life' iteration.
         /// </summary>
         /// <param name="playgroundArray"> Playground array. </param>
         /// <param name="x_size"> Playground number of rows. </param>
         /// <param name="y_size"> Playground number of cilumns. </param>
-        /// <returns>int[,] - New array for Playground (after Iteration).</returns>
+        /// <returns> int[,] - New array for Playground (after Iteration). </returns>
         public int[,] DoGameOfLifeIteration(int[,] playgroundArray, int x_size, int y_size)
         {
             int[,] playgroundArrayAfterIteration = new int[x_size,y_size];
@@ -36,7 +38,7 @@ namespace GameOfLife.GameOfLife
         /// <summary>
         /// Method checks calls against game rules.
         /// </summary>
-        /// <param name="playgroundArray">  Playground array. </param>
+        /// <param name="playgroundArray">  Playground array as array of Int. </param>
         /// <param name="arraysRowsNumber"> Playground number of rows. </param>
         /// <param name="arraysColumnsNumber"> Playground number of cilumns. </param>
         /// <param name="x_coord"> The state we check now (by rows). </param>
@@ -68,7 +70,7 @@ namespace GameOfLife.GameOfLife
         /// <param name="y_coord"> The state we check now (by column). </param>
         /// <param name="arraysRowsNumber"> Playground array number of rows. </param>
         /// <param name="arraysColumnsNumber"> Playground array number of cilumns. </param>
-        /// <returns>int - Number of neighbors for current state.</returns>
+        /// <returns> int - Number of neighbors for current state. </returns>
         private int CheckNeighbors(int[,] playgroundArray, int x_coord,int y_coord , int arraysRowsNumber, int arraysColumnsNumber)
         {
             int sumOfNeighbors = 0;
@@ -96,7 +98,7 @@ namespace GameOfLife.GameOfLife
         /// <param name="coord"> Current position.</param>
         /// <param name="offset"> Offset/next coordinate to check. </param>
         /// <param name="arrayLenght"> Array size/lenght/border. </param>
-        /// <returns> int -   Next cell coordinate. </returns>
+        /// <returns> int - Next cell coordinate. </returns>
         private int GetModulNumber(int coord, int offset , int arrayLenght)
         {
             return (coord + offset + arrayLenght) % arrayLenght;

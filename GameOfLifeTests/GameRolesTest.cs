@@ -50,11 +50,13 @@ namespace GameOfLifeTests
                 {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,},
             };
 
+            
             arrayForIteration = _sut.DoGameOfLifeIteration(arrayForIteration, 
                                                            arrayForIteration.GetLength(0), 
                                                            arrayForIteration.GetLength(1));
 
             Assert.Equal(arrayForIteration, expectedArray);
         }
+
     }
 }

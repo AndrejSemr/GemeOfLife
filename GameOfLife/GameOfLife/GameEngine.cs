@@ -10,7 +10,7 @@
     {
         private  UserUI userUI = new UserUI();
         private PlaygroundArray gamePlaygroundArray;
-        private IWorkWithFile _fileWorker = new FileWriterBin();
+        private IWorkWithFile _fileWorker = new FileWriterJSON();
         private int[] arrayWithSelectedPlaygrounds;
         //private PlaygroundArray TESTsaveArray;  // array of links to original 8 : performance?
         
@@ -27,9 +27,11 @@
 
             TimerCallback tm = new TimerCallback(GameLifeCycle);
             Timer timer = new Timer(tm, null, 0, 1000);
+
             userUI.KeyLogerToExit(ConsoleKey.Escape);
             timer.Dispose();
             int isSaveGame = userUI.ShowSaveMenu();
+
             if(isSaveGame == 1)
             {
                 _fileWorker.WriteInformationInFile(gamePlaygroundArray);
@@ -46,17 +48,21 @@
             int howMuchCanSelect = 0;
             if (typeOfPlaygroundCreation == 1)
             {
+
                 int rows;
                 int column;
                 int numberOfGame;
                 userUI.EnterPlaygroundSize(out rows, out column, out numberOfGame);
                 gamePlaygroundArray = new PlaygroundArray(rows, column, numberOfGame);
                 howMuchCanSelect = numberOfGame;
+
             }
             else
             {
+
                 gamePlaygroundArray = (PlaygroundArray)_fileWorker.OpenFileAndGatInformation();
                 howMuchCanSelect = gamePlaygroundArray.NumberOfArrays;
+
             }
 
             if (howMuchCanSelect > 8)

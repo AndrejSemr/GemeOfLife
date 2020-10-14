@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace GameOfLife.GameOfLife
 {
+    using System;
+
     /// <summary>
     /// Class create an array of playgrounds for Game Of Life.
     /// </summary>
@@ -27,19 +26,26 @@ namespace GameOfLife.GameOfLife
             for (int index = 0; index < NumberOfArrays; index++)
             {
                 playgroundArray[index] = new Playground(rows,columns);
-                playgroundArray[index].RandomlyFillArray();
             }
         }
+
+        /// <summary>
+        /// Constructor for JSON Serialization/Deserialization.
+        /// </summary>
+        public PlaygroundArray()
+        {}
 
         /// <summary>
         /// Method call one iteration for each Playground.
         /// </summary>
         public void Iteration()
         {
+
             for (int index = 0; index < NumberOfArrays; index++)
             {
                 playgroundArray[index].Iteration();
             }
+
         }
 
         /// <summary>

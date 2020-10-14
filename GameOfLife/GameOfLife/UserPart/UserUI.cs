@@ -119,7 +119,6 @@ namespace GameOfLife.GameOfLife
         {
             Drow(gamePlayground.GetPlaygroundArray()); 
             WriteInformationAboutPlayground(gamePlayground.GetNumberOfLivePoints(), gamePlayground.GetNumberOfIteration());
-            
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace GameOfLife.GameOfLife
         private void WriteInformationAboutPlayground(int numberOfLivePoints, int numberOfIteration)
         {
             Console.WriteLine("Live points number: " + numberOfLivePoints + "\t" +
-                          "Iteration: " + numberOfIteration);
+                                "Iteration: " + numberOfIteration);
         }
         
         /// <summary>
@@ -141,8 +140,10 @@ namespace GameOfLife.GameOfLife
         {
             for (int i = 0; i < playgroundArray.GetLength(0); i++)
             {
+
                 for (int j = 0; j < playgroundArray.GetLength(1); j++)
                 {
+
                     if (playgroundArray[i, j] == 0)
                     {
                         Console.Write("{0,3}", ".");
@@ -151,8 +152,10 @@ namespace GameOfLife.GameOfLife
                     {
                         Console.Write("{0,3}", playgroundArray[i, j]);
                     }
+
                 }
                 Console.WriteLine();
+
             }
         }
 
@@ -202,6 +205,7 @@ namespace GameOfLife.GameOfLife
             {
                 return selectedItem;
             }
+
             return SelectValueInReange(max, min, "Selected item is out of range");
         }
 

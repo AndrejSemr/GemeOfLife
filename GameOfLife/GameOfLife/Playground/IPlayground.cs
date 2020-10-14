@@ -7,24 +7,10 @@ namespace GameOfLife
     public interface IPlayground
     {
         #region VariableDeclaration
-        /// <summary>
-        /// Number of playground rows.
-        /// </summary>
+
         public int PlaygroundRows { get; set; }
-
-        /// <summary>
-        /// Number of playground columns.
-        /// </summary>
         public int PlaygroundColumns{get; set; }
-
-        /// <summary>
-        /// Playgrounds grid.
-        /// </summary>
         public int[,] PlaygriundGrid { get; set; }
-
-        /// <summary>
-        /// Iteration number.
-        /// </summary>
         public int IterationNumber { get; set; }
 
         #endregion
@@ -44,7 +30,7 @@ namespace GameOfLife
         /// <summary>
         /// Method return playground as an array of numbers.
         /// </summary>
-        /// <returns> int[,] - Playground array of numbers. </returns>
+        /// <returns> int[,] - Playground array as array of int. </returns>
         public int[,] GetPlaygroundArray();
 
         /// <summary>
