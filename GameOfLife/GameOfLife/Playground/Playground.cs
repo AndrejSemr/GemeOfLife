@@ -10,11 +10,14 @@ namespace GameOfLife.GameOfLife
     [Serializable()]
     public class Playground : IPlayground
     {
+        #region VariableDeclaration
         public IGameRoles arrayChecker = new GameRoles();
         public int PlaygroundRows { get; set; }
         public int PlaygroundColumns { get; set; }
         public int[,] PlaygriundGrid { get; set; }
         public int IterationNumber { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Constructor creates a playground based on ready array and iteration number.

@@ -34,7 +34,7 @@ namespace GameOfLife.GameOfLife
         /// <summary>
         /// Method save playgrounds to file (as binary form).
         /// </summary>
-        /// <param name="playgroundArray"> Playground Array example </param>
+        /// <param name="playgroundArray"> Playground Array example. </param>
         public void WriteInformationInFile(IPlaygroundArray playgroundArray)
         {
             if (File.Exists(Path))

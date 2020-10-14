@@ -96,9 +96,7 @@ namespace GameOfLife.GameOfLife
         /// <param name="coord"> Current position.</param>
         /// <param name="offset"> Offset/next coordinate to check. </param>
         /// <param name="arrayLenght"> Array size/lenght/border. </param>
-        /// <returns> 
-        ///     int -   Next cell coordinate
-        /// </returns>
+        /// <returns> int -   Next cell coordinate. </returns>
         private int GetModulNumber(int coord, int offset , int arrayLenght)
         {
             return (coord + offset + arrayLenght) % arrayLenght;
