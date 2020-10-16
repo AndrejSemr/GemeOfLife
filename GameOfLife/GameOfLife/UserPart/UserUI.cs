@@ -7,13 +7,13 @@ namespace GameOfLife.GameOfLife
     /// <summary>
     /// Class for displaying information (console).
     /// </summary>
-    public class UserUI
+    public class UserUI : IUserUI
     {
 
         /// <summary>
-        /// Method asks User if he/she wants to save the result on file.
+        /// Method asks User if he/she wants to save the result to file.
         /// </summary>
-        /// <returns>int - User's answer. </returns>
+        /// <returns> int - User's answer. </returns>
         public int ShowSaveMenu()
         {
             string menuText = "Do you want to save result?\n";
@@ -53,15 +53,14 @@ namespace GameOfLife.GameOfLife
                 menuInfo += "witch you would like to see.("+ maxNumberOfSelectedItems + " Playgrounds) \n";
             Console.Write(menuInfo);
 
-            int index = 0;
-            int[] arrayOfPlaygroundsNumber = new int[maxNumberOfSelectedItems];
+            var index = 0;
+            var arrayOfPlaygroundsNumber = new int[maxNumberOfSelectedItems];
 
             while (index < maxNumberOfSelectedItems)
             {
                 string infroForSelection = "Enter " + index + " elenebt [0:" + numbersOfArrays + "]";
                 int tmp = SelectValueInReange(0, numbersOfArrays, infroForSelection);
-                bool check = false;
-                check = arrayOfPlaygroundsNumber.Any(arrayItem => arrayItem == tmp);
+                bool check = arrayOfPlaygroundsNumber.Any(arrayItem => arrayItem == tmp);
 
                 if (!check)
                 {
@@ -78,7 +77,6 @@ namespace GameOfLife.GameOfLife
             return arrayOfPlaygroundsNumber;
            
         }
-        /// ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
         /// <summary>
         /// Method to display selected Playgrounds.
@@ -89,84 +87,30 @@ namespace GameOfLife.GameOfLife
         {
             Console.Clear();
 
-            for (int index = 0; index < arrayWithSelectedPlaygrounds.Length; index++)
+            for (var index = 0; index < arrayWithSelectedPlaygrounds.Length; index++)
             {
-                DisplayPlayground(gamePlaygroundArrays.playgroundArray[index]);
+                DisplayPlayground(gamePlaygroundArrays.PlaygroundArrays[index]);
             }
 
-            Console.WriteLine("Number of living playgrounds: {0}", gamePlaygroundArrays.GetNumberOfLivingPlaygrounds());
+            Console.WriteLine("Number of living playgrounds: {0}", gamePlaygroundArrays.GetNumberOfLivePlaygrounds());
             Console.WriteLine("Press 'Esc' to end the game.");
         }
 
-        //public void TESTDisplayPlaygroundArray(IPlaygroundArray gamePlaygroundArrays)
-        //{
-        //    Console.Clear();
-
-        //    for (int index = 0; index < gamePlaygroundArrays.NumberOfArrays; index++)
-        //    {
-        //        DisplayPlayground(gamePlaygroundArrays.playgroundArray[index]);
-        //    }
-
-        //    Console.WriteLine("Number of living playgrounds: {0}", gamePlaygroundArrays.GetNumberOfLivingPlaygrounds());
-        //    Console.WriteLine("Press 'Esc' to end the game.");
-        //}
-
         /// <summary>
-        /// Methode display playground, iteration number and number of live points.
+        /// Method send a message to user.
         /// </summary>
-        /// <param name="gamePlayground"> Playground </param>
-        public void DisplayPlayground(IPlayground gamePlayground)
+        /// <param name="message"> Message to user. </param>
+        public void SendMessageToUser(string message)
         {
-            Drow(gamePlayground.GetPlaygroundArray()); 
-            WriteInformationAboutPlayground(gamePlayground.GetNumberOfLivePoints(), gamePlayground.GetNumberOfIteration());
+            Console.WriteLine(message);
         }
 
-        /// <summary>
-        /// Method write iteration number and number of live points.
-        /// </summary>
-        /// <param name="numberOfLivePoints"> Number of live points. </param>
-        /// <param name="numberOfIteration"> Iteration number. </param>
-        private void WriteInformationAboutPlayground(int numberOfLivePoints, int numberOfIteration)
-        {
-            Console.WriteLine("Live points number: " + numberOfLivePoints + "\t" +
-                                "Iteration: " + numberOfIteration);
-        }
-        
-        /// <summary>
-        /// Methods display playground on console.
-        /// </summary>
-        /// <param name="playgroundArray"> Playground array</param>
-        public void Drow(int[,] playgroundArray)
-        {
-            for (int i = 0; i < playgroundArray.GetLength(0); i++)
-            {
-
-                for (int j = 0; j < playgroundArray.GetLength(1); j++)
-                {
-
-                    if (playgroundArray[i, j] == 0)
-                    {
-                        Console.Write("{0,3}", ".");
-                    }
-                    else
-                    {
-                        Console.Write("{0,3}", playgroundArray[i, j]);
-                    }
-
-                }
-                Console.WriteLine();
-
-            }
-        }
-
-        /// <summary>
+                /// <summary>
         /// Method asks User to enter size of the playground (rows and columns) and numbers of games (Number of arrays);
         /// </summary>
-        /// <return>
         /// <param name="row"> Number of rows. </param>
         /// <param name="column"> Numeber of colums. </param>
         /// <param name="numberOfGame"> How many elements to create in Playground Array.</param>
-        /// </return>
         public void EnterPlaygroundSize(out int row, out int column,out int numberOfGame)
         {
             Console.Clear();
@@ -187,6 +131,51 @@ namespace GameOfLife.GameOfLife
             do
             {
             } while (exitButtin != Console.ReadKey().Key);
+        }
+
+        /// <summary>
+        /// Methode display playground, iteration number and number of live points.
+        /// </summary>
+        /// <param name="gamePlayground"> Playground </param>
+        private void DisplayPlayground(IPlayground gamePlayground)
+        {
+            Drow(gamePlayground.GetPlaygroundArray()); 
+            WriteInformationAboutPlayground(gamePlayground.GetNumberOfLivePoints(), gamePlayground.IterationNumber);
+        }
+
+        /// <summary>
+        /// Method write iteration number and number of live points.
+        /// </summary>
+        /// <param name="numberOfLivePoints"> Number of live points. </param>
+        /// <param name="numberOfIteration"> Iteration number. </param>
+        private void WriteInformationAboutPlayground(int numberOfLivePoints, int numberOfIteration)
+        {
+            Console.WriteLine("Live points number: " + numberOfLivePoints + "\t" +
+                                "Iteration: " + numberOfIteration);
+        }
+        
+        /// <summary>
+        /// Methods display playground on console.
+        /// </summary>
+        /// <param name="playgroundArray"> Playground array</param>
+        private void Drow(int[,] playgroundArray)
+        {
+            for (var i = 0; i < playgroundArray.GetLength(0); i++)
+            {
+                for (var j = 0; j < playgroundArray.GetLength(1); j++)
+                {
+                    if (playgroundArray[i, j] == 0)
+                    {
+                        Console.Write("{0,3}", ".");
+                    }
+                    else
+                    {
+                        Console.Write("{0,3}", playgroundArray[i, j]);
+                    }
+                }
+
+                Console.WriteLine();
+            }
         }
 
         /// <summary>
@@ -227,5 +216,6 @@ namespace GameOfLife.GameOfLife
             }
             return IntegerInput("Wrong number entered! Try again.");
         }
+
     }
 }

@@ -64,16 +64,16 @@ namespace GameOfLifeTests
         [Fact]
         public void NumberOfIteration_Do3Iterations_IterationNumberEqual3()
         {
-            Assert.Equal(0, _sut.GetNumberOfIteration());
+            Assert.Equal(0, _sut.IterationNumber);
 
             _sut.Iteration();
-            Assert.Equal(1, _sut.GetNumberOfIteration());
+            Assert.Equal(1, _sut.IterationNumber);
 
             _sut.Iteration();
-            Assert.Equal(2, _sut.GetNumberOfIteration());
+            Assert.Equal(2, _sut.IterationNumber);
 
             _sut.Iteration();
-            Assert.Equal(3, _sut.GetNumberOfIteration());
+            Assert.Equal(3, _sut.IterationNumber);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace GameOfLifeTests
         /// Compare Actual array and Expected array.
         /// </summary>
         [Fact]
-        public void Iteration_Do1Iteration_ExpectedArrayEqualActualArray()
+        public void Iteration_DoOneIteration_ExpectedArrayEqualActualArray()
         {
             int [,] expectedArrayAfterIteration = new int[10, 10]  {
                 {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,},

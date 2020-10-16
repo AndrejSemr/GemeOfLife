@@ -1,7 +1,4 @@
 ﻿using GameOfLife.GameOfLife;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace GameOfLifeTests
@@ -44,13 +41,13 @@ namespace GameOfLifeTests
 
             for (int i = 0; i < playgrounds.NumberOfArrays; i++)
             {
-                playgrounds.playgroundArray[i].PlaygriundGrid = _arrayForTest;
+                playgrounds.PlaygroundArrays[i].PlaygriundGrid = _arrayForTest;
             }
 
-            Assert.Equal(5, playgrounds.GetNumberOfLivingPlaygrounds());
+            Assert.Equal(5, playgrounds.GetNumberOfLivePlaygrounds());
 
-            playgrounds.playgroundArray[0].PlaygriundGrid = zerroArray;
-            Assert.Equal(4, playgrounds.GetNumberOfLivingPlaygrounds());
+            playgrounds.PlaygroundArrays[0].PlaygriundGrid = zerroArray;
+            Assert.Equal(4, playgrounds.GetNumberOfLivePlaygrounds());
 
         }
 

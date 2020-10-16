@@ -3,13 +3,11 @@ using System;
 
 namespace GameOfLife.GameOfLife
 {
-
+    [Serializable()]
     /// <summary>
     /// Class contains the rules of 'Game Of Life' and necessary methods
     /// for state analyz and make a decision.
     /// </summary>
-
-    [Serializable()]
     public class GameRoles : IGameRoles
     {
 

@@ -16,15 +16,18 @@ namespace GameOfLifeTests
 
         public FileWriter_Test()
         {
-            //jsonForTest = ("{'playgroundArray':[{'arrayChecker':{},'PlaygroundRows':10,'PlaygroundColumns':10,'PlaygriundGrid':[[1,1,0,0,1,0,0,1,0,1],[1,1,1,0,1,0,1,1,0,1],[1,0,1,0,1,1,0,0,1,1],[0,0,1,0,0,1,0,0,0,1],[1,0,0,1,1,0,1,1,1,0],[1,0,1,1,1,1,0,1,0,1],[0,1,1,0,1,1,1,1,0,0],[0,0,0,1,1,0,1,1,0,1],[1,0,1,1,0,0,0,0,0,0],[1,0,0,1,1,0,0,1,0,0]],'IterationNumber':0}],'NumberOfArrays':1}");
-            string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTest.json";
+
+            string Path = @"Resurses/MyTest.json";
             jsonForTest = File.ReadAllText(Path);
 
         }
 
+        #region FileWriterJSON_Tests
+
         [Fact]
-        public void OpenFileAndGatInformation_TEST()
+        public void JSON_OpenFileAndGatInformation_DeserializeJSONandGetInformationFromFile_ArraysAreSame()
         {
+            // Dec
             string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTestt.json";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
@@ -32,21 +35,23 @@ namespace GameOfLifeTests
             });
             FileWriterJSON fileWeiter = new FileWriterJSON(fileSystem,Path);
 
+            // Act
             PlaygroundArray arrayJsonSerialization = JsonConvert.DeserializeObject<PlaygroundArray>(jsonForTest);
             PlaygroundArray arrayFunctionTest = (PlaygroundArray)fileWeiter.OpenFileAndGatInformation();
 
+            //Assert
             Assert.Equal(arrayJsonSerialization.NumberOfArrays,
                             arrayFunctionTest.NumberOfArrays);
-            Assert.Equal(arrayJsonSerialization.playgroundArray[0].GetNumberOfIteration(),
-                            arrayFunctionTest.playgroundArray[0].GetNumberOfIteration());
-            Assert.Equal(arrayJsonSerialization.playgroundArray[0].GetNumberOfLivePoints(),
-                            arrayFunctionTest.playgroundArray[0].GetNumberOfLivePoints());
-            Assert.Equal(arrayJsonSerialization.playgroundArray[0].GetPlaygroundArray(),
-                            arrayFunctionTest.playgroundArray[0].GetPlaygroundArray());
+            Assert.Equal(arrayJsonSerialization.PlaygroundArrays[0].IterationNumber,
+                            arrayFunctionTest.PlaygroundArrays[0].IterationNumber);
+            Assert.Equal(arrayJsonSerialization.PlaygroundArrays[0].GetNumberOfLivePoints(),
+                            arrayFunctionTest.PlaygroundArrays[0].GetNumberOfLivePoints());
+            Assert.Equal(arrayJsonSerialization.PlaygroundArrays[0].GetPlaygroundArray(),
+                            arrayFunctionTest.PlaygroundArrays[0].GetPlaygroundArray());
         }
 
         [Fact]
-        public void WriteInformationInFile()
+        public void JSON_WriteInformationInFile_SerializateObjectAndSaveIt_JSONSAreSame()
         {
             GameEngine gameEngine = new GameEngine();
             string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTestTT.json";
@@ -64,9 +69,9 @@ namespace GameOfLifeTests
         }
 
         [Fact]
-        public void OpenFileAndGatInformation_FileNotExist_FileNotFoundException()
+        public void JSON_OpenFileAndGatInformation_FileNotExist_FileNotFoundException()
         {
-            string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTestt.json";
+            string Path = @"Lala.txt";
             var fileSystem = new MockFileSystem();
             IWorkWithFile file = new FileWriterJSON(fileSystem, Path);
 
@@ -74,10 +79,10 @@ namespace GameOfLifeTests
         }
 
         [Fact]
-        public void CreateSaveDownload_CreateClassSaveItAndDownloadFromFile_True()
+        public void JSON_CreateSaveDownload_CreateClassSaveItAndDownloadFromFile_True()
         {
             IPlaygroundArray expectedArray = new PlaygroundArray(10, 10, 1);
-            string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTestTT.json";
+            string Path = @"MyTest.json";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { Path, "" }
@@ -89,13 +94,65 @@ namespace GameOfLifeTests
 
             Assert.Equal(expectedArray.NumberOfArrays,
                             actualArray.NumberOfArrays);
-            Assert.Equal(expectedArray.playgroundArray[0].GetNumberOfIteration(),
-                            actualArray.playgroundArray[0].GetNumberOfIteration());
-            Assert.Equal(expectedArray.playgroundArray[0].GetNumberOfLivePoints(),
-                            actualArray.playgroundArray[0].GetNumberOfLivePoints());
-            Assert.Equal(expectedArray.playgroundArray[0].GetPlaygroundArray(),
-                            actualArray.playgroundArray[0].GetPlaygroundArray());
+            Assert.Equal(expectedArray.PlaygroundArrays[0].IterationNumber,
+                            actualArray.PlaygroundArrays[0].IterationNumber);
+            Assert.Equal(expectedArray.PlaygroundArrays[0].GetNumberOfLivePoints(),
+                            actualArray.PlaygroundArrays[0].GetNumberOfLivePoints());
+            Assert.Equal(expectedArray.PlaygroundArrays[0].GetPlaygroundArray(),
+                            actualArray.PlaygroundArrays[0].GetPlaygroundArray());
 
         }
+
+        #endregion
+
+        #region FileWriterBin_Tests
+
+        [Fact]
+        public void Bin_CreateSaveDownload_CreateClassSaveItAndDownloadFromFile_True()
+        {
+            IPlaygroundArray expectedArray = new PlaygroundArray(10, 10, 1);
+            string Path = @"MyTest.bin";
+            var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { Path, "" }
+            });
+            IWorkWithFile file = new FileWriterBin(fileSystem, Path);
+
+            file.WriteInformationInFile(expectedArray);
+            IPlaygroundArray actualArray = file.OpenFileAndGatInformation();
+
+            Assert.Equal(expectedArray.NumberOfArrays,
+                            actualArray.NumberOfArrays);
+            Assert.Equal(expectedArray.PlaygroundArrays[0].IterationNumber,
+                            actualArray.PlaygroundArrays[0].IterationNumber);
+            Assert.Equal(expectedArray.PlaygroundArrays[0].GetNumberOfLivePoints(),
+                            actualArray.PlaygroundArrays[0].GetNumberOfLivePoints());
+            Assert.Equal(expectedArray.PlaygroundArrays[0].GetPlaygroundArray(),
+                            actualArray.PlaygroundArrays[0].GetPlaygroundArray());
+
+        }
+
+        [Fact]
+        public void Bin_OpenFileAndGatInformation_FileNotExist_FileNotFoundException()
+        {
+            string Path = @"Lala.txt";
+            var fileSystem = new MockFileSystem();
+            IWorkWithFile file = new FileWriterBin(fileSystem, Path);
+
+            Assert.Throws<FileNotFoundException>(() => file.OpenFileAndGatInformation());
+        }
+
+        #endregion
+
+        //[Fact]
+        //public void PrepareExsampels()
+        //{
+        //    GameEngine gameEngine = new GameEngine();
+        //    string Path = @"Resurses/MyRest.bin";
+        //    var playgroundArr = new PlaygroundArray(10, 10, 1);
+
+        //    IWorkWithFile file = new FileWriterBin(Path);
+        //    file.WriteInformationInFile(playgroundArr);
+        //}
     }
 }

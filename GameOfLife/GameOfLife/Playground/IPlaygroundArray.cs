@@ -2,12 +2,18 @@
 namespace GameOfLife.GameOfLife
 {
     /// <summary>
-    /// Interface is associated with PlaygroundArray class.
-    /// Provides necessary functionality.
+    /// Interface provides the necessary functionality for work with PlaygroundArray.
     /// </summary>
     public interface IPlaygroundArray
     {
-        public Playground[] playgroundArray { get; set; }
+        /// <summary>
+        /// Array of playgrounds.
+        /// </summary>
+        public Playground[] PlaygroundArrays { get; set; }
+
+        /// <summary>
+        /// Number of elements in PlaygroundArrays.
+        /// </summary>
         public int NumberOfArrays { get; set; }
 
         /// <summary>
@@ -15,8 +21,8 @@ namespace GameOfLife.GameOfLife
         /// Living playground - Playground where at least 1 playground element 
         /// is equal to 1.
         /// </summary>
-        /// <returns> int - Numner of living playground. </returns>
-        public int GetNumberOfLivingPlaygrounds();
+        /// <returns> int - Numner of live playground. </returns>
+        public int GetNumberOfLivePlaygrounds();
 
         /// <summary>
         /// Method call one iteration for each Playground.

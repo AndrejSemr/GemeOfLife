@@ -8,70 +8,72 @@
     /// </summary>
     public class GameEngine
     {
-        private  UserUI userUI = new UserUI();
-        private PlaygroundArray gamePlaygroundArray;
-        private IWorkWithFile _fileWorker = new FileWriterJSON();
-        private int[] arrayWithSelectedPlaygrounds;
-        //private PlaygroundArray TESTsaveArray;  // array of links to original 8 : performance?
-        
+
+        private IUserUI _userUI = new UserUI();
+        private PlaygroundArray _gamePlaygroundArray;
+        private int[] _arrayWithSelectedPlaygrounds;
+        private IWorkWithFile _fileWorker;
+        private string _path = @"C:\Users\andrejs.semrjakovs\Downloads\PlaygroundArraySave.json";
+
         /// <summary>
         /// Method starts game process.
         /// </summary>
         public void Start()
         {
-
-            int typeOfPlaygroundCreation = userUI.StartMenuItem();
+            _fileWorker = new FileWriterJSON(_path);
+            int typeOfPlaygroundCreation = _userUI.StartMenuItem();
             int howMuchCanSelect = CreatePlaygroundArrayForSelectedMenuItem(typeOfPlaygroundCreation);
-            arrayWithSelectedPlaygrounds = userUI.SelectPlaygroundsID(gamePlaygroundArray.NumberOfArrays, howMuchCanSelect);
-            //TESTsaveArray = ReturnLinks(gamePlaygroundArray);
+            _arrayWithSelectedPlaygrounds = _userUI.SelectPlaygroundsID(_gamePlaygroundArray.NumberOfArrays, howMuchCanSelect);
 
             TimerCallback tm = new TimerCallback(GameLifeCycle);
             Timer timer = new Timer(tm, null, 0, 1000);
 
-            userUI.KeyLogerToExit(ConsoleKey.Escape);
+            _userUI.KeyLogerToExit(ConsoleKey.Escape);
             timer.Dispose();
-            int isSaveGame = userUI.ShowSaveMenu();
 
-            if(isSaveGame == 1)
-            {
-                _fileWorker.WriteInformationInFile(gamePlaygroundArray);
-            }
+            int selectedOption = _userUI.ShowSaveMenu();
+            SaveGameOrNo(selectedOption);
 
         }
 
         /// <summary>
-        /// Create PlaygroundArray for selected menu item from UI part.
+        /// Create PlaygroundArray for selected menu item.
         /// </summary>
-        /// <param name="typeOfPlaygroundCreation"> Selected menu item</param>
-        private int CreatePlaygroundArrayForSelectedMenuItem(int typeOfPlaygroundCreation)
+        /// <param name="selectedMenuItem"> Selected menu item</param>
+        /// <returns> int - Number how many playgrounds on screen can choose.</returns>
+        private int CreatePlaygroundArrayForSelectedMenuItem(int selectedMenuItem)
         {
-            int howMuchCanSelect = 0;
-            if (typeOfPlaygroundCreation == 1)
-            {
+            int howManyPlaygroundsCanSelect = 0;
 
+            if (selectedMenuItem == 1)
+            {
                 int rows;
                 int column;
                 int numberOfGame;
-                userUI.EnterPlaygroundSize(out rows, out column, out numberOfGame);
-                gamePlaygroundArray = new PlaygroundArray(rows, column, numberOfGame);
-                howMuchCanSelect = numberOfGame;
-
+                _userUI.EnterPlaygroundSize(out rows, out column, out numberOfGame);
+                _gamePlaygroundArray = new PlaygroundArray(rows, column, numberOfGame);
+                howManyPlaygroundsCanSelect = numberOfGame;
             }
             else
             {
-
-                gamePlaygroundArray = (PlaygroundArray)_fileWorker.OpenFileAndGatInformation();
-                howMuchCanSelect = gamePlaygroundArray.NumberOfArrays;
-
+                try
+                {
+                    _gamePlaygroundArray = (PlaygroundArray)_fileWorker.OpenFileAndGatInformation();
+                    howManyPlaygroundsCanSelect = _gamePlaygroundArray.NumberOfArrays;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("File does not exist.(Error: {0})", ex);
+                    CreatePlaygroundArrayForSelectedMenuItem(1);
+                }
             }
 
-            if (howMuchCanSelect > 8)
+            if (howManyPlaygroundsCanSelect > 8)
             {
                 return 8;
             }
-            return howMuchCanSelect;
+            return howManyPlaygroundsCanSelect;
         }
-
 
         /// <summary>
         /// Method responsible for game process
@@ -79,27 +81,27 @@
         /// <param name="playgroundObj"> Playground as object </param>
         private void GameLifeCycle(object tmp)
         {
-            gamePlaygroundArray.Iteration();
-            userUI.DisplayPlaygroundArray(gamePlaygroundArray, arrayWithSelectedPlaygrounds);
-            //userUI.TESTDisplayPlaygroundArray(TESTsaveArray);
+            _gamePlaygroundArray.Iteration();
+            _userUI.DisplayPlaygroundArray(_gamePlaygroundArray, _arrayWithSelectedPlaygrounds);
         }
 
-        /////////////////////////////////////////////////////////////////
-        
-        //public PlaygroundArray ReturnLinks (PlaygroundArray playgroundArray)
-        //{
-        //    PlaygroundArray playground = new PlaygroundArray(playgroundArray.playgroundArray.GetLength(0),
-        //                                                      playgroundArray.playgroundArray.GetLength(1),
-        //                                                      myarray.Length);
-        //
-        //    for (int i = 0; i < arrayWithSelectedPlaygrounds.Length; i++)
-        //    {
-        //        int index = arrayWithSelectedPlaygrounds[i];
-        //        playground.playgroundArray[i] = playgroundArray.playgroundArray[index];
-        //    }
-
-        //    return playground;
-        //}
+        /// <summary>
+        /// Method saves playground to file or display a massage that playground
+        /// is not saved.
+        /// </summary>
+        /// <param name="selectedOption"> Selected option (1- save file / else - no).</param>
+        private void SaveGameOrNo(int selectedOption)
+        {
+            if(selectedOption == 1)
+            {
+                _fileWorker.WriteInformationInFile(_gamePlaygroundArray);
+                _userUI.SendMessageToUser("File saved successfully.");
+            }
+            else
+            {
+                _userUI.SendMessageToUser("File is not saved.");
+            }
+        }
 
     }
 }

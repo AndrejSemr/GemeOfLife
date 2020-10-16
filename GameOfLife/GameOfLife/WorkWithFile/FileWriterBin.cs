@@ -3,14 +3,49 @@ namespace GameOfLife.GameOfLife
 {
     using System;
     using System.IO;
+    using System.IO.Abstractions;
     using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
     /// Class for work with binary file.
     /// </summary>
-    public class FileWriterBin //: IWorkWithFile
+    public class FileWriterBin : IWorkWithFile
     {
-        private string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTest.dat";
+        private string _path;
+        private IFileSystem _fileSystem;
+    
+        #region Constructor
+
+        /// <summary>
+        /// Constructor for tests.
+        /// </summary>
+        /// <param name="fileSystem"> FileStrym interface. </param>
+        public FileWriterBin(IFileSystem fileSystem)
+        {
+            this._fileSystem = fileSystem;
+            _path = @"C:\Users\andrejs.semrjakovs\Downloads\PlaygroundArraySave.bin";
+        }
+
+        /// <summary>
+        /// Constructor for tests.
+        /// </summary>
+        /// <param name="fileSystem"> FileStrym interface. </param>
+        /// <param name="path"> Path to file. </param>
+        public FileWriterBin(IFileSystem fileSystem, string path)
+        {
+            _path = path;
+            this._fileSystem = fileSystem;
+        }
+
+        /// <summary>
+        /// Constructor initiates work with file (witch poecified path)
+        /// </summary>
+        public FileWriterBin(string path) : this(fileSystem: new FileSystem())
+        {
+            _path = path;
+        }
+
+        #endregion
 
         /// <summary>
         /// Method reads information from file and return playground array and number of iteration.
@@ -18,16 +53,16 @@ namespace GameOfLife.GameOfLife
         /// <return> IPlaygroundArray - PlaygroundArray from file. </return>
         public IPlaygroundArray OpenFileAndGatInformation()
         {
-            if (!File.Exists(Path))
+            if (!File.Exists(_path))
             {
-                Console.WriteLine("File not found \n {0}",Path);
                 throw new FileNotFoundException();
             }
 
             BinaryFormatter binary = new BinaryFormatter();
-            FileStream strem = new FileStream(Path, FileMode.Open);
+            FileStream strem = new FileStream(_path, FileMode.Open);
             var obj = (IPlaygroundArray)binary.Deserialize(strem);
             strem.Close();
+
             return obj;
         }
 
@@ -37,16 +72,15 @@ namespace GameOfLife.GameOfLife
         /// <param name="playgroundArray"> Playground Array example. </param>
         public void WriteInformationInFile(IPlaygroundArray playgroundArray)
         {
-            if (File.Exists(Path))
+            if (_fileSystem.File.Exists(_path))
             {
-                File.Delete(Path);
+                _fileSystem.File.Delete(_path);
             }
 
             BinaryFormatter binary = new BinaryFormatter();
-            FileStream strem = new FileStream(Path, FileMode.Create);
+            FileStream strem = new FileStream(_path, FileMode.Create);
             binary.Serialize(strem, playgroundArray);
             strem.Close();
-            Console.WriteLine("Successfully saved");
         }
     }
 }

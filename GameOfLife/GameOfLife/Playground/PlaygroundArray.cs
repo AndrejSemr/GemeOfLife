@@ -1,5 +1,4 @@
-﻿
-namespace GameOfLife.GameOfLife
+﻿namespace GameOfLife.GameOfLife
 {
     using System;
 
@@ -9,8 +8,17 @@ namespace GameOfLife.GameOfLife
     [Serializable()]
     public class PlaygroundArray : IPlaygroundArray
     {
-        public Playground[] playgroundArray { get; set; }
+        /// <summary>
+        /// Array of playgrounds.
+        /// </summary>
+        public Playground[] PlaygroundArrays { get; set; }
+
+        /// <summary>
+        /// Number of elements in PlaygroundArrays.
+        /// </summary>
         public int NumberOfArrays { get; set; }
+
+        #region Constructors
 
         /// <summary>
         /// Constructor to create an array of playgrounds.
@@ -21,11 +29,11 @@ namespace GameOfLife.GameOfLife
         public PlaygroundArray(int rows, int columns,int numberOfArrays)
         {
             NumberOfArrays = numberOfArrays;
-            playgroundArray = new Playground[NumberOfArrays];
+            PlaygroundArrays = new Playground[NumberOfArrays];
 
-            for (int index = 0; index < NumberOfArrays; index++)
+            for (var index = 0; index < NumberOfArrays; index++)
             {
-                playgroundArray[index] = new Playground(rows,columns);
+                PlaygroundArrays[index] = new Playground(rows,columns);
             }
         }
 
@@ -33,19 +41,20 @@ namespace GameOfLife.GameOfLife
         /// Constructor for JSON Serialization/Deserialization.
         /// </summary>
         public PlaygroundArray()
-        {}
+        {
+        }
+
+        #endregion
 
         /// <summary>
         /// Method call one iteration for each Playground.
         /// </summary>
         public void Iteration()
         {
-
-            for (int index = 0; index < NumberOfArrays; index++)
+            for (var index = 0; index < NumberOfArrays; index++)
             {
-                playgroundArray[index].Iteration();
+                PlaygroundArrays[index].Iteration();
             }
-
         }
 
         /// <summary>
@@ -53,15 +62,15 @@ namespace GameOfLife.GameOfLife
         /// Living playground - Playground where at least 1 playground element 
         /// is equal to 1.
         /// </summary>
-        /// <returns> int - Numner of living playground </returns>
-        public int GetNumberOfLivingPlaygrounds()
+        /// <returns> int - Numner of live playgrounds </returns>
+        public int GetNumberOfLivePlaygrounds()
         {
             int numberOfLivingPlaygrounds = 0;
 
-            for (int index = 0; index < NumberOfArrays; index++)
+            for (var index = 0; index < NumberOfArrays; index++)
             {
 
-                if(playgroundArray[index].GetNumberOfLivePoints() > 0)
+                if(PlaygroundArrays[index].GetNumberOfLivePoints() > 0)
                 {
                     numberOfLivingPlaygrounds++;
                 }

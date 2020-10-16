@@ -8,9 +8,24 @@ namespace GameOfLife
     {
         #region VariableDeclaration
 
+        /// <summary>
+        /// Number of playground rows.
+        /// </summary>
         public int PlaygroundRows { get; set; }
-        public int PlaygroundColumns{get; set; }
+
+        /// <summary>
+        /// Number of playground comunns.
+        /// </summary>
+        public int PlaygroundColumns { get; set; }
+
+        /// <summary>
+        /// Playground grid.
+        /// </summary>
         public int[,] PlaygriundGrid { get; set; }
+
+        /// <summary>
+        /// Iteration number.
+        /// </summary>
         public int IterationNumber { get; set; }
 
         #endregion
@@ -20,12 +35,6 @@ namespace GameOfLife
         /// </summary>
         /// <returns> int - Number of live points. </returns>
         public int GetNumberOfLivePoints();
-
-        /// <summary>
-        /// Metnod return number of iteration.
-        /// </summary>
-        /// <returns> int - Iteration number. </returns>
-        public int GetNumberOfIteration();
 
         /// <summary>
         /// Method return playground as an array of numbers.

@@ -12,21 +12,38 @@ namespace GameOfLife.GameOfLife
     {
         #region VariableDeclaration
 
-        public IGameRoles arrayChecker;
+        /// <summary>
+        /// Number of playground rows.
+        /// </summary>
         public int PlaygroundRows { get; set; }
+
+        /// <summary>
+        /// Number of playground comunns.
+        /// </summary>
         public int PlaygroundColumns { get; set; }
+
+        /// <summary>
+        /// Playground grid.
+        /// </summary>
         public int[,] PlaygriundGrid { get; set; }
+
+        /// <summary>
+        /// Iteration number.
+        /// </summary>
         public int IterationNumber { get; set; }
+
+        private IGameRoles _arrayChecker;
 
         #endregion
 
         #region Constructors
+
         /// <summary>
         /// Constructor for JSON Serialization/Deserialization.
         /// </summary>
         public Playground()
         {
-            arrayChecker = new GameRoles();
+            _arrayChecker = new GameRoles();
         }
 
         /// <summary>
@@ -40,7 +57,7 @@ namespace GameOfLife.GameOfLife
             PlaygroundRows = array.GetLength(0);
             PlaygroundColumns = array.GetLength(1);
             IterationNumber = ireration;
-            arrayChecker = new GameRoles();
+            _arrayChecker = new GameRoles();
         }
 
         /// <summary>
@@ -50,16 +67,19 @@ namespace GameOfLife.GameOfLife
         /// <param name="columns">Number of rows in new Playground.</param>
         public Playground(int rows, int columns)
         {
-            if (rows <= 1 || columns <= 1) 
+            if (rows <= 1 || columns <= 1)
+            {
                 throw new ArgumentOutOfRangeException("Row and Column size must be greater than 0");
+            }
 
             PlaygroundRows = rows;
             PlaygroundColumns = columns;
             PlaygriundGrid = new int[PlaygroundRows, PlaygroundColumns];
             IterationNumber = 0;
-            arrayChecker = new GameRoles();
+            _arrayChecker = new GameRoles();
             RandomlyFillArray();
         }
+
         #endregion
 
         /// <summary>
@@ -67,25 +87,23 @@ namespace GameOfLife.GameOfLife
         /// </summary>
         public void Iteration()
         {
-            PlaygriundGrid = arrayChecker.DoGameOfLifeIteration(PlaygriundGrid, PlaygroundRows, PlaygroundColumns);
+            PlaygriundGrid = _arrayChecker.DoGameOfLifeIteration(PlaygriundGrid, PlaygroundRows, PlaygroundColumns);
             IterationNumber++;
         }
 
         /// <summary>
-        ///  Method randomly fills playgrounds array with 1 (life) or 0 (free) values.
+        ///  Method randomly fills playground array with 1 (life) or 0 (free) values.
         /// </summary>
         private void RandomlyFillArray()
         {
-            Random random = new Random();
+            var random = new Random();
 
             for (int i = 0; i < PlaygroundRows; i++)
             {
-
                 for (int j = 0; j < PlaygroundColumns; j++)
                 {
                     PlaygriundGrid[i, j] = random.Next(0, 2);
                 }
-
             }
         }
 
@@ -97,15 +115,6 @@ namespace GameOfLife.GameOfLife
         {
             int sum = PlaygriundGrid.Cast<int>().Sum();
             return sum;
-        }
-
-        /// <summary>
-        /// Metnod return number of iteration.
-        /// </summary>
-        /// <returns> int - Iteration number. </returns>
-        public int GetNumberOfIteration()
-        {
-            return IterationNumber;
         }
 
         /// <summary>
