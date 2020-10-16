@@ -19,6 +19,8 @@ namespace GameOfLife.GameOfLife
         public int IterationNumber { get; set; }
 
         #endregion
+
+        #region Constructors
         /// <summary>
         /// Constructor for JSON Serialization/Deserialization.
         /// </summary>
@@ -27,7 +29,6 @@ namespace GameOfLife.GameOfLife
             arrayChecker = new GameRoles();
         }
 
-        #region Constructors
         /// <summary>
         /// Constructor creates a playground based on ready array and iteration number.
         /// </summary>

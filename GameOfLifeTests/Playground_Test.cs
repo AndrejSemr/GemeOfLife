@@ -5,11 +5,14 @@ using Xunit;
 
 namespace GameOfLifeTests
 {
-    public class PlaygroundTest
+    /// <summary>
+    /// Tests cover Playground class
+    /// </summary>
+    public class Playground_Test
     {
         private IPlayground _sut;
         private int [,] _arrayForTest;
-        public PlaygroundTest()
+        public Playground_Test()
         {
             _sut = new Playground(10, 10);
             _arrayForTest = new int[10, 10]  {
@@ -37,12 +40,10 @@ namespace GameOfLifeTests
         [InlineData(2,1)]
         [InlineData(-1, -1)]
         [InlineData(0, 0)]
-        public void PlaygroundConstructor_CreateArrayWithValuesLess1_ArgumentOutOfRangeException(int value1,int value2)
+        public void PlaygroundConstructor_CreateArrayWithValuesLess1_ArgumentOutOfRangeException(int numberOfRous, int numberOfColumns)
         {
-            int numberOfRous = value1;
-            int numberOfColumns = value2;
-            Playground array;
-            Assert.Throws<ArgumentOutOfRangeException>( () => array = new Playground(numberOfRous, numberOfColumns));
+
+            Assert.Throws<ArgumentOutOfRangeException>( () =>  new Playground(numberOfRous, numberOfColumns));
             
         }
 

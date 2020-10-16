@@ -7,10 +7,10 @@ namespace GameOfLifeTests
     /// <summary>
     /// Tests for class GameGoles. Checks that the game roles are followed.
     /// </summary>
-    public class GameRolesTest
+    public class GameRoles_Test
     {
         private readonly IGameRoles _sut;
-        public GameRolesTest()
+        public GameRoles_Test()
         {
             _sut = new GameRoles();
         }

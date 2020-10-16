@@ -8,7 +8,7 @@ namespace GameOfLife.GameOfLife
     /// <summary>
     /// Class for work with binary file.
     /// </summary>
-    class FileWriterBin : IWorkWithFile
+    public class FileWriterBin //: IWorkWithFile
     {
         private string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTest.dat";
 
