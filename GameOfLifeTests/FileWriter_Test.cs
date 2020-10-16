@@ -28,7 +28,7 @@ namespace GameOfLifeTests
         public void JSON_OpenFileAndGatInformation_DeserializeJSONandGetInformationFromFile_ArraysAreSame()
         {
             // Dec
-            string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTestt.json";
+            string Path = @"Resurses\MyTest.json";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { Path, jsonForTest }
@@ -54,7 +54,7 @@ namespace GameOfLifeTests
         public void JSON_WriteInformationInFile_SerializateObjectAndSaveIt_JSONSAreSame()
         {
             GameEngine gameEngine = new GameEngine();
-            string Path = @"C:\Users\andrejs.semrjakovs\Downloads\MyTestTT.json";
+            string Path = @"Resurses\MyTest.json";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { Path, "" }
@@ -82,7 +82,7 @@ namespace GameOfLifeTests
         public void JSON_CreateSaveDownload_CreateClassSaveItAndDownloadFromFile_True()
         {
             IPlaygroundArray expectedArray = new PlaygroundArray(10, 10, 1);
-            string Path = @"MyTest.json";
+            string Path = @"Resurses\MyTest.json";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { Path, "" }
@@ -111,7 +111,7 @@ namespace GameOfLifeTests
         public void Bin_CreateSaveDownload_CreateClassSaveItAndDownloadFromFile_True()
         {
             IPlaygroundArray expectedArray = new PlaygroundArray(10, 10, 1);
-            string Path = @"MyTest.bin";
+            string Path = @"Resurses\MyTest.bin";
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { Path, "" }
