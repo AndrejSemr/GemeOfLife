@@ -41,12 +41,12 @@ namespace GameOfLifeTests
 
             for (int i = 0; i < playgrounds.NumberOfArrays; i++)
             {
-                playgrounds.PlaygroundArrays[i].PlaygriundGrid = _arrayForTest;
+                playgrounds.PlaygroundArrays[i].PlaygroundGrid = _arrayForTest;
             }
 
             Assert.Equal(5, playgrounds.GetNumberOfLivePlaygrounds());
 
-            playgrounds.PlaygroundArrays[0].PlaygriundGrid = zerroArray;
+            playgrounds.PlaygroundArrays[0].PlaygroundGrid = zerroArray;
             Assert.Equal(4, playgrounds.GetNumberOfLivePlaygrounds());
 
         }

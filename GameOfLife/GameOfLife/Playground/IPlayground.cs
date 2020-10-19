@@ -21,7 +21,7 @@ namespace GameOfLife
         /// <summary>
         /// Playground grid.
         /// </summary>
-        public int[,] PlaygriundGrid { get; set; }
+        public int[,] PlaygroundGrid { get; set; }
 
         /// <summary>
         /// Iteration number.

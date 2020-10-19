@@ -148,10 +148,10 @@ namespace GameOfLifeTests
         //public void PrepareExsampels()
         //{
         //    GameEngine gameEngine = new GameEngine();
-        //    string Path = @"Resurses/MyRest.bin";
+        //    string Path = @"Resurses/MyTest.json";
         //    var playgroundArr = new PlaygroundArray(10, 10, 1);
 
-        //    IWorkWithFile file = new FileWriterBin(Path);
+        //    IWorkWithFile file = new FileWriterJSON(Path);
         //    file.WriteInformationInFile(playgroundArr);
         //}
     }

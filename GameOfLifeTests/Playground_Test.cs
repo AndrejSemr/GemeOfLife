@@ -27,7 +27,7 @@ namespace GameOfLifeTests
                 {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,},
                 {   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,},
             };
-            _sut.PlaygriundGrid = _arrayForTest;
+            _sut.PlaygroundGrid = _arrayForTest;
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace GameOfLifeTests
             };
             _sut.Iteration();
 
-            Assert.Equal(expectedArrayAfterIteration, _sut.PlaygriundGrid);
+            Assert.Equal(expectedArrayAfterIteration, _sut.PlaygroundGrid);
         }
 
     }

@@ -25,7 +25,7 @@ namespace GameOfLife.GameOfLife
         /// <summary>
         /// Playground grid.
         /// </summary>
-        public int[,] PlaygriundGrid { get; set; }
+        public int[,] PlaygroundGrid { get; set; }
 
         /// <summary>
         /// Iteration number.
@@ -53,7 +53,7 @@ namespace GameOfLife.GameOfLife
         /// <param name="ireration"> Iteration number. </param>
         public Playground(int [,] array, int ireration)
         {
-            PlaygriundGrid = array;
+            PlaygroundGrid = array;
             PlaygroundRows = array.GetLength(0);
             PlaygroundColumns = array.GetLength(1);
             IterationNumber = ireration;
@@ -74,7 +74,7 @@ namespace GameOfLife.GameOfLife
 
             PlaygroundRows = rows;
             PlaygroundColumns = columns;
-            PlaygriundGrid = new int[PlaygroundRows, PlaygroundColumns];
+            PlaygroundGrid = new int[PlaygroundRows, PlaygroundColumns];
             IterationNumber = 0;
             _arrayChecker = new GameRoles();
             RandomlyFillArray();
@@ -87,7 +87,7 @@ namespace GameOfLife.GameOfLife
         /// </summary>
         public void Iteration()
         {
-            PlaygriundGrid = _arrayChecker.DoGameOfLifeIteration(PlaygriundGrid, PlaygroundRows, PlaygroundColumns);
+            PlaygroundGrid = _arrayChecker.DoGameOfLifeIteration(PlaygroundGrid, PlaygroundRows, PlaygroundColumns);
             IterationNumber++;
         }
 
@@ -102,7 +102,7 @@ namespace GameOfLife.GameOfLife
             {
                 for (int j = 0; j < PlaygroundColumns; j++)
                 {
-                    PlaygriundGrid[i, j] = random.Next(0, 2);
+                    PlaygroundGrid[i, j] = random.Next(0, 2);
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace GameOfLife.GameOfLife
         /// <returns> int - Number of live points. </returns>
         public int GetNumberOfLivePoints()
         {
-            int sum = PlaygriundGrid.Cast<int>().Sum();
+            int sum = PlaygroundGrid.Cast<int>().Sum();
             return sum;
         }
 
@@ -123,7 +123,7 @@ namespace GameOfLife.GameOfLife
         /// <returns> int[,] - Playground array as array of int. </returns>
         public int[,] GetPlaygroundArray()
         {
-            return PlaygriundGrid;
+            return PlaygroundGrid;
         }
 
     }
